@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "egov-mcp"
+version = "1.0.0"
+description = "e-Gov法令API用のMCPサーバー"
+authors = ["Your Name <your.email@example.com>"]
+packages = [{ include = "egov_mcp" }]
+
+[tool.poetry.dependencies]
+python = ">=3.10"
+mcp = { extras = ["cli"], version = "^1.9.2" }
+httpx = "^0.27.0"
+
+[tool.poetry.scripts]
+egov-mcp = "egov_mcp.main:main"
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.11.12"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api" 
