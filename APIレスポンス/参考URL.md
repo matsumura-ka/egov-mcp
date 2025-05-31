@@ -1,0 +1,7 @@
+- 法令API Version2: https://laws.e-gov.go.jp/api/2/swagger-ui#/laws-api/get-keyword
+- 法令一覧取得API(/laws) : https://laws.e-gov.go.jp/api/2/redoc/#tag/laws-api/operation/get-laws 
+- 法令履歴一覧取得API(/law_revisions): https://laws.e-gov.go.jp/api/2/redoc/#tag/laws-api/operation/get-revisions 
+- 法令本文取得API(/law_data): https://laws.e-gov.go.jp/api/2/redoc/#tag/laws-api/operation/get-law_data  
+- 添付ファイル取得API(attachment): https://laws.e-gov.go.jp/api/2/redoc/#tag/laws-api/operation/get-attachment 
+- キーワード検索API(/keyword): https://laws.e-gov.go.jp/api/2/redoc/#tag/laws-api/operation/get-keyword 
+- 法令本文ファイル取得API(/law_file): https://laws.e-gov.go.jp/api/2/redoc/#tag/laws-api/operation/get-law_file 

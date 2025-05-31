@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "egov-mcp": {
+      "command": "docker",
+      "args": [
+        "run",
+        "--rm",
+        "-i",
+        "egov-mcp"
+      ],
+      "env": {}
+    }
+  }
+} 
