@@ -1,147 +1,97 @@
 # e-Gov法令API用MCPサーバー
 
-e-Gov法令APIにアクセスするためのMCP（Model Context Protocol）サーバーです。
+日本の法令を検索・取得するためのMCPサーバーです。
 
-## 概要
+## プロジェクト構成
 
-このMCPサーバーは以下の機能を提供します：
+| ファイル/ディレクトリ | 用途 |
+|---------------------|------|
+| **MCP_RULES.md** | 法令API MCPの運用ルール・ベストプラクティス集 |
+| **APIレスポンス/** | e-Gov法令APIのレスポンス仕様書 |
+| **egov_mcp/** | MCPサーバーの実装コード |
 
-- 法令一覧の取得
-- 法令本文データの取得
-- 法令履歴の取得
-- キーワード検索
-- 添付ファイルの取得
-- 法令ファイル（PDF、DOCX、XML）の取得
+## 利用可能なツール
 
-## 利用可能な機能
-
-### ツール一覧
-
-1. **get_laws** - 法令一覧を取得
-2. **get_law_data** - 特定の法令の本文データを取得
-3. **get_law_revisions** - 特定の法令の履歴一覧を取得
-4. **search_keyword** - 法令本文内のキーワード検索
-5. **get_attachment** - 法令の添付ファイルを取得
-6. **get_law_file** - 法令本文ファイルを取得
+| ツール名 | 機能 |
+|---------|------|
+| **get_laws** | 法令の検索・一覧取得 |
+| **get_law_data** | 法令本文の取得 |
+| **get_law_revisions** | 改正履歴の確認 |
+| **search_keyword** | キーワード検索 |
+| **get_law_file** | PDF/DOCX/XMLファイルの取得 |
+| **get_attachment** | 添付ファイルの取得 |
 
 ## セットアップ
 
-### 必要な環境
+### Dockerで実行（推奨）
 
-- Python 3.10以上
-- Poetry（推奨）
-- Docker（Docker経由で実行する場合）
-
-### インストール
+**必要な環境:**
+- Docker
 
 ```bash
-# 依存関係をインストール
-make install
-
-# または直接Poetry経由でインストール
-poetry install
-```
-
-## 使用方法
-
-### 1. Dockerで実行（推奨）
-
-最も簡単な方法です：
-
-```bash
-# Dockerコンテナでサーバーを実行
+git clone https://github.com/matsumura-ka/egov-mcp
+cd egov-mcp
 make docker-run
 ```
 
-これにより以下が自動的に実行されます：
-- Dockerイメージのビルド
-- ポート8000でのサーバー起動
+### ローカルで実行
 
-### 2. ローカルで直接実行
+**必要な環境:**
+- Python 3.10以上
+- Poetry
 
 ```bash
-# MCPサーバーを直接実行
+git clone https://github.com/matsumura-ka/egov-mcp
+cd egov-mcp
+make install
 make run
-
-# または
-poetry run python egov_mcp/main.py
 ```
 
-### 3. 開発者向けコマンド
+## MCPクライアントでの設定
 
-```bash
-# コードのフォーマット
-make format
-
-# コードの静的解析
-make check
-# または
-make lint
-
-# Dockerイメージのクリーンアップ
-make clean
-```
-
-### 利用可能なコマンド一覧
-
-```bash
-# すべてのコマンドを表示
-make help
-```
-
-## MCPクライアントでの使用例
-
-このサーバーはClaude DesktopなどのMCPクライアントから利用できます。
-
-### Claude Desktop設定例
+設定ファイルに以下を追加：
 
 ```json
 {
   "mcpServers": {
     "egov-mcp": {
       "command": "docker",
-      "args": ["run", "-p", "8000:8000", "egov-mcp"]
+      "args": ["run", "--rm", "-i", "egov-mcp"],
+      "env": {}
     }
   }
 }
 ```
 
-### 使用例
+## 使用例
 
-```
-# 憲法を検索
-search_keyword(keyword="憲法")
+**法改正の影響確認**
+- 令和5年度税制改正における法人税法の変更点と会計処理への影響を確認したい
 
-# 特定の法令の詳細を取得
-get_laws(law_title="民法")
+**会計基準と法令の関係**
+- リース会計基準の変更に伴う会社法上の計算書類への影響と法人税法の取扱いを確認したい
 
-# 法令の本文を取得
-get_law_data(law_revision_id="法令履歴ID")
-```
+**実務で重要な法令確認**
+- 電子帳簿保存法の最新要件と会計システムの対応義務について詳しく確認したい
 
-## 開発情報
+## よくある問題
 
-### プロジェクト構造
+**MCPクライアントで認識されない**
+- 設定ファイルのJSON記法を確認
+- クライアントを再起動
 
-```
-egov-mcp/
-├── egov_mcp/
-│   ├── __init__.py
-│   └── main.py          # メインのMCPサーバー
-├── pyproject.toml       # Poetry設定
-├── Dockerfile          # Docker設定
-├── Makefile            # 便利なコマンド
-└── README.md
-```
+**法令が見つからない**
+- 正確な法令名で検索
+- キーワード検索を試す
 
-### API詳細
+**エラーが出る**
+- より具体的で限定的な質問に変更
 
-このMCPサーバーは e-Gov法令API (https://laws.e-gov.go.jp/api/2) を使用しています。
+## 注意事項
+
+- 政府のe-Gov法令APIを使用
+- 重要な判断には最新の公式情報を確認してください
 
 ## ライセンス
 
-MIT License
-
-## 貢献
-
-プルリクエストやissueの報告を歓迎します。 
+MIT License 
