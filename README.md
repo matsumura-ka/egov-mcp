@@ -40,16 +40,47 @@ make docker-run
 - Python 3.10以上
 - Poetry
 
+**手順:**
+
 ```bash
+# 1. プロジェクトをダウンロード
 git clone https://github.com/matsumura-ka/egov-mcp
 cd egov-mcp
+
+# 2. 依存関係をインストール（シンボリックリンクも自動作成）
 make install
+
+# 3. 動作確認（オプション）
 make run
 ```
 
+**`make install`の効果:**
+- 依存関係のインストール
+- `~/egov-mcp-link`にシンボリックリンクを作成
+- MCP設定情報を表示
+
 ## MCPクライアントでの設定
 
-設定ファイルに以下を追加：
+### ローカル実行用（推奨・最も簡単）
+
+`make install`実行後、設定ファイルに以下を追加：
+
+```json
+{
+  "mcpServers": {
+    "egov-mcp": {
+      "command": "poetry",
+      "args": ["run", "python", "egov_mcp/main.py"],
+      "cwd": "/Users/yourname/egov-mcp-link",
+      "env": {}
+    }
+  }
+}
+```
+
+**注意：** `yourname`を実際のユーザー名に変更してください。
+
+### Docker実行用
 
 ```json
 {
