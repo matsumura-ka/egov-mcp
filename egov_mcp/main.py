@@ -795,18 +795,18 @@ async def search_keyword(arguments: Dict[str, Any]) -> List[TextContent]:
     format_type = arguments.get("response_format", "json")
     
     if format_type == "json":
-    result = response.json()
-    
-    # content_typeとfields_onlyの処理
-    content_type = arguments.get("content_type", "full")
-    fields_to_extract = arguments.get("fields_only")
-    if not fields_to_extract and content_type != "full":
-        fields_to_extract = get_content_type_fields(
-            content_type, "keyword_search"
-        )
-    
-    text = format_response(result, debug_info, fields_to_extract)
-    return [TextContent(type="text", text=text)]
+        result = response.json()
+        
+        # content_typeとfields_onlyの処理
+        content_type = arguments.get("content_type", "full")
+        fields_to_extract = arguments.get("fields_only")
+        if not fields_to_extract and content_type != "full":
+            fields_to_extract = get_content_type_fields(
+                content_type, "keyword_search"
+            )
+        
+        text = format_response(result, debug_info, fields_to_extract)
+        return [TextContent(type="text", text=text)]
     else:
         return [TextContent(type="text", text=debug_info + response.text)]
 
