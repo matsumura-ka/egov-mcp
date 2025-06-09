@@ -1,11 +1,10 @@
-.PHONY: help run docker-build docker-run format check lint install uninstall clean
+.PHONY: help run docker-build docker-run format check lint install clean
 
 # Default target
 help:
 	@echo "Available commands:"
 	@echo "  help        - Show this help message"
-	@echo "  install     - Install dependencies and create MCP symlink"
-	@echo "  uninstall   - Remove MCP symlink"
+	@echo "  install     - Install dependencies with poetry"
 	@echo "  run         - Run the MCP server directly"
 	@echo "  docker-build - Build Docker image"
 	@echo "  docker-run  - Run the MCP server in Docker container"
@@ -14,28 +13,9 @@ help:
 	@echo "  lint        - Alias for check"
 	@echo "  clean       - Clean up Docker images and containers"
 
-# Install dependencies and create MCP symlink
+# Install dependencies
 install:
 	poetry install
-	echo "Creating MCP symlink for easy access..."
-	ln -sf "$$(pwd)" "$$HOME/egov-mcp-link" 2>/dev/null || true
-	echo ""
-	echo "✅ Installation complete!"
-	echo ""
-	echo "📝 MCP Client Configuration:"
-	echo "Add this to your MCP client config file:"
-	echo ""
-	echo '{'
-	echo '  "mcpServers": {'
-	echo '    "egov-mcp": {'
-	echo '      "command": "poetry",'
-	echo '      "args": ["run", "python", "egov_mcp/main.py"],'
-	echo '      "cwd": "'$$HOME'/egov-mcp-link",'
-	echo '      "env": {}'
-	echo '    }'
-	echo '  }'
-	echo '}'
-	echo ""
 
 # Run the MCP server directly
 run:
@@ -63,10 +43,4 @@ lint: check
 # Clean up Docker images and containers
 clean:
 	docker rmi egov-mcp 2>/dev/null || true
-	docker container prune -f
-
-# Remove MCP symlink
-uninstall:
-	@echo "Removing MCP symlink..."
-	@rm -f "$$HOME/egov-mcp-link"
-	@echo "✅ Uninstallation complete!" 
+	docker container prune -f 
