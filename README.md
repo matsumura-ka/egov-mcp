@@ -70,15 +70,29 @@ make run
   "mcpServers": {
     "egov-mcp": {
       "command": "poetry",
-      "args": ["run", "python", "egov_mcp/main.py"],
-      "cwd": "/Users/yourname/egov-mcp-link",
+      "args": ["run", "-C", "/path/to/egov-mcp", "egov-mcp"],
       "env": {}
     }
   }
 }
 ```
 
-**注意：** `yourname`を実際のユーザー名に変更してください。
+**注意：** `/path/to/egov-mcp`を実際のプロジェクトパスに変更してください。
+例：`/Users/yourname/development/egov-mcp`
+
+**代替設定（直接パス指定）：**
+
+```json
+{
+  "mcpServers": {
+    "egov-mcp": {
+      "command": "poetry",
+      "args": ["run", "-C", "/path/to/egov-mcp", "python", "egov_mcp/main.py"],
+      "env": {}
+    }
+  }
+}
+```
 
 ### Docker実行用
 
